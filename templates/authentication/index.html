@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Authentication Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <!-- Display Messages -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        <strong>Message:</strong> {{ message }}
+        <button aria-hidden="true" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %}
+
+    <!-- Welcome Message -->
+    <h1 style="text-align: center;">🌟 Welcome to NGO 🌟</h1>
+
+    {% if request.user.is_authenticated %}
+        <h2 style="text-align: center;">Hello, {{ fname }}!</h2>
+        <p style="text-align: center;">You are successfully logged in.</p>
+        <div style="text-align: center;">
+            <button type="submit">
+                <a href="/signout" style="text-decoration: none; color: inherit;">🚪 Logout</a>
+            </button>
+        </div>
+    {% else %}
+        <p style="text-align: center;">Join us and make a difference!</p>
+        <div style="text-align: center;">
+            <button type="submit">
+                <a href="/register" style="text-decoration: none; color: inherit;">✍️ Sign Up</a>
+            </button>
+            <button type="submit">
+                <a href="/signin" style="text-decoration: none; color: inherit;">🔑 Sign In</a>
+            </button>
+        </div>
+    {% endif %}
+</body>
+</html>
