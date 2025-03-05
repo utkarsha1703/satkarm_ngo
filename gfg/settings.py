@@ -11,9 +11,17 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from . info import*
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST 
+EMAIL_HOST_USER = EMAIL_HOST_USER 
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD 
+EMAIL_PORT = EMAIL_PORT
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
