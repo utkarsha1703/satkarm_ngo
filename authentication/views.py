@@ -64,7 +64,7 @@ def register(request):
         #wlc email
 
         subject = 'Welcome to Satkarma'
-        message = "Hello" +myuser.first_name + "!! \n" + "Welcome to Satkarma. Thank you for visiting our website. \n We have also send your a confirmation email, please confirm your email adderss in order to activate your account. \n\n Thanking you "
+        message = "Hello" + myuser.first_name + "!! \n" + "Welcome to Satkarma. Thank you for visiting our website. \n We have also send your a confirmation email, please confirm your email adderss in order to activate your account. \n\n Thanking you "
         from_email = settings.EMAIL_HOST_USER
         to_list = [myuser.email]
         send_mail(
@@ -88,10 +88,10 @@ def register(request):
         'tokens' : generate_token.make_token(myuser)
          })
         email = EmailMessage(
-        email_subject,
-        message2,
-        settings.EMAIL_HOST_USER,
-        [myuser.email],
+            email_subject,
+            message2,
+            settings.EMAIL_HOST_USER,
+            [myuser.email],
         )
         email.fail_silently = True
         email.send()
@@ -128,7 +128,7 @@ def activate(request, uidb64, token):
         uid = force_str(urlsafe_base64_decode(uidb64))
         myuser = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            myuser = None
+        myuser = None
     if myuser is not None and generate_token.check_token(myuser, token):
         myuser.is_active = True
         myuser.save()
