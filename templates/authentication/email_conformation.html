@@ -1,9 +1,11 @@
 {% autoescape off %}
-Welcome to django login
+Welcome to Django Login
 
 Hello {{ name }},!
 
 Please click the link below to confirm your email address.
 
-Confirmation Link: http://{{ domain }}{% url 'activate' uid64=uid token=token %}
+Confirmation Link: http://{{ domain }}{% url 'activate' uidb64=uidb64 token=tokens %}
+
+If you did not request this, please ignore this email.
 {% endautoescape %}

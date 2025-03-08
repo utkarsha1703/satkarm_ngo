@@ -11,10 +11,13 @@ from . tokens import generate_token
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 
+
 def home(request):
     return render(request, "authentication/index.html")
 
 def register(request):
+    myuser = None
+
     if request.method == "POST":
         username = request.POST.get("username", "")  
         fname = request.POST.get("fname", "")  # Default to empty string if missing
@@ -70,30 +73,32 @@ def register(request):
             from_email, 
             to_list,  
             fail_silently=True  # ✅ Corrected placement
-)
+        )
 
  
         # Email Adderee Confirmation email.
 
-    current_site = get_current_site(request)
-    email_subject = "Confirm your email."
-    message2 = render_to_string('email confirmation.html', {
+        current_site = get_current_site(request)
+        email_subject = "Confirm your email."
+
+        message2 = render_to_string('authentication/email_conformation.html', {
         'name': myuser.first_name,
-        'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+        'domain': get_current_site(request).domain,
+        'uidb64': urlsafe_base64_encode(force_bytes(myuser.pk)), 
         'tokens' : generate_token.make_token(myuser)
-    })
-    email = EmailMessage(
+         })
+        email = EmailMessage(
         email_subject,
         message2,
         settings.EMAIL_HOST_USER,
         [myuser.email],
-    )
-    email.fail_silently = True
-    email.send()
+        )
+        email.fail_silently = True
+        email.send()
 
     
-    return redirect('signin')
-    return render(request, "authentication/register.html",)
+        return redirect('signin')
+    return render(request, "authentication/register.html")
 
 def signin(request):
     if request.method == 'POST':
@@ -120,7 +125,7 @@ def signout(request):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         myuser = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             myuser = None
